@@ -77,3 +77,12 @@ export const getCurrentAccount = async () => {
     return currentUser?.documents[0];
   } catch (error) {}
 };
+
+export const logoutAccount = async () => {
+  try {
+    const currentAccount = await account.deleteSession("current");
+
+    if (!currentAccount) throw Error;
+    return currentAccount;
+  } catch (error) {}
+};

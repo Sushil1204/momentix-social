@@ -4,7 +4,7 @@ import {
   useQueryClient,
   useInfiniteQuery,
 } from "@tanstack/react-query";
-import { createNewUser, loginUser } from "../appwrite/api";
+import { createNewUser, loginUser, logoutAccount } from "../appwrite/api";
 import { INewUser } from "@/types";
 
 export const useCreateUserMutation = () => {
@@ -16,5 +16,11 @@ export const useCreateUserMutation = () => {
 export const useLoginUserMutation = () => {
   return useMutation({
     mutationFn: (user: { email: string; password: string }) => loginUser(user),
+  });
+};
+
+export const useLogoutUserMutation = () => {
+  return useMutation({
+    mutationFn: () => logoutAccount(),
   });
 };

@@ -52,14 +52,15 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    if (
-      localStorage?.getItem("cookieFallback") === "[]" ||
-      localStorage?.getItem("cookieFallback") === null
-    )
-      navigate("/login");
+    const authCheck = async () => {
+      const result = await checkAuthUser();
+      if (!result && localStorage?.getItem("cookieFallback") === null) {
+        navigate("/login"); // Redirect to login if not authenticated
+      }
+    };
 
-    checkAuthUser();
-  }, []);
+    authCheck(); // Run authentication check on component mount
+  }, [navigate]);
 
   const values = {
     user,
