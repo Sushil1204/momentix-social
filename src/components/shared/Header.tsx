@@ -8,7 +8,7 @@ const Header = () => {
   const { user } = useUserContext();
 
   return (
-    <section className="sticky top-0 z-50 md:hidden bg-dark-2 w-full">
+    <section className="sticky top-0 z-50 md:hidden bg-slate-100 w-full">
       <div className="flex items-center justify-between py-4 px-5 ">
         <Link to="/" className="flex items-center gap-3">
           <img
