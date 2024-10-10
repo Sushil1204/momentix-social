@@ -22,7 +22,6 @@ import { useUserContext } from "@/context/AuthContext";
 const Login = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
   const { mutateAsync: loginAccount, isPending: isLoggingAccount } =
     useLoginUserMutation();
@@ -45,16 +44,9 @@ const Login = () => {
       return toast({
         title: "Login failed. Please try again.",
       });
-    }
-
-    const isLoggedin = await checkAuthUser();
-    if (isLoggedin) {
+    } else {
       form?.reset();
       navigate("/");
-    } else {
-      return toast({
-        title: "Login failed. Please try again.",
-      });
     }
   }
 

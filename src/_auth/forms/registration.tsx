@@ -28,8 +28,6 @@ const Registration = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
-
   const { mutateAsync: createNewUser, isPending: isCreatingUser } =
     useCreateUserMutation();
   const { mutateAsync: loginAccount, isPending: isLoggingAccount } =
@@ -58,22 +56,15 @@ const Registration = () => {
       email: values?.email,
       password: values?.password,
     });
+    console.log(!session);
 
     if (!session) {
       return toast({
         title: "Login failed. Please try again.",
       });
-    }
-
-    const isLoggedin = await checkAuthUser();
-    console.log(isLoggedin);
-    if (isLoggedin) {
+    } else {
       form?.reset();
       navigate("/");
-    } else {
-      return toast({
-        title: "Login failed. Please try again.",
-      });
     }
   }
   return (

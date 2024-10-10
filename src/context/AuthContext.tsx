@@ -40,6 +40,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           bio: currentAccount?.bio,
           imageUrl: currentAccount?.imageUrl,
         });
+        console.log("working");
         setIsAuthenticated(true);
         return true;
       }
@@ -54,10 +55,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const authCheck = async () => {
       const result = await checkAuthUser();
-      console.log(
-        "check",
-        !result || localStorage?.getItem("cookieFallback") == null
-      );
       if (!result || localStorage?.getItem("cookieFallback") == null) {
         navigate("/login"); // Redirect to login if not authenticated
       }
