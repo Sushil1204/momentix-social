@@ -121,7 +121,7 @@ const Login = () => {
           <p className="text-center my-5 text-sm text-gray-600">
             New User?{" "}
             <Link
-              to="/register"
+              to="/registration"
               className="text-gray-800 font-semibold hover:underline"
             >
               REGISTER HERE

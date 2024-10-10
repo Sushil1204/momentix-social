@@ -66,6 +66,7 @@ const Registration = () => {
     }
 
     const isLoggedin = await checkAuthUser();
+    console.log(isLoggedin);
     if (isLoggedin) {
       form?.reset();
       navigate("/");

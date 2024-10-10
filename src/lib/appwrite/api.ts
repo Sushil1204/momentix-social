@@ -171,3 +171,66 @@ export const uploadPost = async (post: INewPost) => {
     return newPost;
   } catch (error) {}
 };
+
+export const getRecentPost = async () => {
+  try {
+    const posts = await databases?.listDocuments(
+      appwriteConfig?.databasesId,
+      appwriteConfig?.postCollectionId,
+      [Query.orderDesc("$createdAt"), Query.limit(20)]
+    );
+    if (!posts) throw Error;
+    return posts;
+  } catch (error) {}
+};
+
+export const likePost = async (postId: string, likesArray: string[]) => {
+  try {
+    const updatedPost = await databases?.updateDocument(
+      appwriteConfig?.databasesId,
+      appwriteConfig?.postCollectionId,
+      postId,
+      {
+        likes: likesArray,
+      }
+    );
+
+    if (!updatedPost) throw Error;
+
+    return updatedPost;
+  } catch (error) {}
+};
+
+export const savePost = async (postId: string, userId: string) => {
+  try {
+    const createSavePost = await databases?.createDocument(
+      appwriteConfig?.databasesId,
+      appwriteConfig?.savesCollectionId,
+      ID.unique(),
+      {
+        user: userId,
+        post: postId,
+      }
+    );
+
+    if (!createSavePost) throw Error;
+
+    return createSavePost;
+  } catch (error) {}
+};
+
+export const deleteSavePost = async (savePostId: string) => {
+  try {
+    const deletePost = await databases?.deleteDocument(
+      appwriteConfig?.databasesId,
+      appwriteConfig?.savesCollectionId,
+      savePostId
+    );
+
+    if (!deletePost) throw Error;
+
+    console.log("deletePost", deletePost);
+
+    return deletePost;
+  } catch (error) {}
+};

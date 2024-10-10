@@ -16,11 +16,11 @@ import { Textarea } from "../ui/textarea";
 import FileUploader from "../shared/FileUploader";
 import { PostValidation } from "@/lib/validation";
 import { Models } from "appwrite";
-import { useUserContext } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useUploadPost } from "@/lib/react-query/queriesAndMutation";
 import Loader from "../shared/loader";
+import { useUserContext } from "@/context/AuthContext";
 
 type PostFormProps = {
   post?: Models.Document;

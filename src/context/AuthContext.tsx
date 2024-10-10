@@ -54,7 +54,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const authCheck = async () => {
       const result = await checkAuthUser();
-      if (!result && localStorage?.getItem("cookieFallback") === null) {
+      console.log(
+        "check",
+        !result || localStorage?.getItem("cookieFallback") == null
+      );
+      if (!result || localStorage?.getItem("cookieFallback") == null) {
         navigate("/login"); // Redirect to login if not authenticated
       }
     };
@@ -73,7 +77,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };
+export const useUserContext = () => useContext(AuthContext);
 
 export default AuthProvider;
-
-export const useUserContext = () => useContext(AuthContext);
