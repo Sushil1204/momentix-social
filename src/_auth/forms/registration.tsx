@@ -22,7 +22,6 @@ import {
   useCreateUserMutation,
   useLoginUserMutation,
 } from "@/lib/react-query/queriesAndMutation";
-import { useUserContext } from "@/context/AuthContext";
 
 const Registration = () => {
   const { toast } = useToast();

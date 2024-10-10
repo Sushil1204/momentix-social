@@ -17,7 +17,6 @@ import { useForm } from "react-hook-form";
 import { useLoginUserMutation } from "@/lib/react-query/queriesAndMutation";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { useUserContext } from "@/context/AuthContext";
 
 const Login = () => {
   const { toast } = useToast();
