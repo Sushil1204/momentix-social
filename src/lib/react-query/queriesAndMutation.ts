@@ -12,6 +12,7 @@ import {
   getInfinitePost,
   getPostById,
   getRecentPost,
+  getUserById,
   likePost,
   loginUser,
   logoutAccount,
@@ -195,5 +196,13 @@ export const useSearchUser = (searchTerm: string) => {
     queryKey: ["searchUser", searchTerm],
     queryFn: () => searchUser(searchTerm),
     enabled: !!searchTerm,
+  });
+};
+
+export const useGetUserById = (userId: string) => {
+  return useQuery({
+    queryKey: ["getUserById"],
+    queryFn: () => getUserById(userId),
+    enabled: !!userId,
   });
 };

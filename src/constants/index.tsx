@@ -34,11 +34,6 @@ export const Navlinks = [
     href: "/create",
     icon: <CirclePlus />,
   },
-  {
-    title: "Profile",
-    href: "/profile",
-    icon: <CircleUserRound />,
-  },
 ];
 
 export const MobileNavlinks = [
