@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
 
 const FileUploader = ({ fieldChange, mediaUrl }: any) => {
@@ -28,14 +28,14 @@ const FileUploader = ({ fieldChange, mediaUrl }: any) => {
         className="mt-2 p-6 border-4 border-dashed  rounded-2xl  cursor-pointer text-center"
       >
         <input {...getInputProps()} />
-        {!imageUrl ? (
+        {!imageUrl && !mediaUrl ? (
           <p className="text-gray-800 font-bold text-sm md:text-base">
             Drag & drop an image or click to upload
           </p>
         ) : (
           <div className="w-full p-2 lg:p-5 flex flex-1 flex-wrap items-center justify-center">
             <img
-              src={imageUrl}
+              src={mediaUrl || imageUrl}
               alt="preview"
               className="mx-auto rounded-xl max-h-40 w-auto shadow-md"
             />

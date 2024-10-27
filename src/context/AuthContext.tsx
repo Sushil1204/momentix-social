@@ -40,12 +40,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           bio: currentAccount?.bio,
           imageUrl: currentAccount?.imageUrl,
         });
-        console.log("working");
         setIsAuthenticated(true);
         return true;
       }
       return false;
     } catch (error) {
+      console.error("Authentication Error:", error);
       return false;
     } finally {
       setIsLoading(false);
@@ -54,8 +54,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const authCheck = async () => {
+      setIsLoading(true);
       const result = await checkAuthUser();
-      if (!result || localStorage?.getItem("cookieFallback") == null) {
+      const cookieFallback = localStorage?.getItem("cookieFallback");
+      if (!result || cookieFallback == null) {
         navigate("/login"); // Redirect to login if not authenticated
       }
     };

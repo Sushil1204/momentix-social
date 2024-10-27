@@ -6,6 +6,9 @@ import Registration from "./_auth/forms/registration";
 import RootLayout from "./_root/rootLayout";
 import { Toaster } from "./components/ui/toaster";
 import CreatePost from "./_root/pages/createPost";
+import EditPost from "./_root/pages/editPost";
+import PostDetails from "./_root/pages/postDetails";
+import Search from "./_root/pages/Search";
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
         <Route element={<RootLayout />}>
           <Route index element={<Home />} />
           <Route path="/create" element={<CreatePost />} />
+          <Route path="/edit/:id" element={<EditPost />} />
+          <Route path="/post/:id" element={<PostDetails />} />
+          <Route path="/search" element={<Search />} />
         </Route>
       </Routes>
       <Toaster />

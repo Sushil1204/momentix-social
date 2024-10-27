@@ -41,7 +41,7 @@ const PostCard = ({ post }: PostCardProps) => {
         </div>
         {user?.id === post?.creator?.$id && (
           <Link
-            to={`/update-post/${post?.$id}`}
+            to={`/edit/${post?.$id}`}
             className="text-gray-500 hover:text-gray-800 transition-colors"
           >
             <SquarePen className="h-6 w-6" />
@@ -49,7 +49,7 @@ const PostCard = ({ post }: PostCardProps) => {
         )}
       </div>
 
-      <Link to={`/posts/${post?.$id}`} className="group">
+      <Link to={`/post/${post?.$id}`} className="group">
         <div className="text-sm font-medium lg:text-base mb-4">
           <p className="text-gray-700 group-hover:text-gray-900 transition-colors">
             {post?.caption}

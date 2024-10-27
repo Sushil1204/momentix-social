@@ -18,20 +18,26 @@ import { PostValidation } from "@/lib/validation";
 import { Models } from "appwrite";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { useUploadPost } from "@/lib/react-query/queriesAndMutation";
+import {
+  useUpdatePost,
+  useUploadPost,
+} from "@/lib/react-query/queriesAndMutation";
 import Loader from "../shared/loader";
 import { useUserContext } from "@/context/AuthContext";
 
 type PostFormProps = {
   post?: Models.Document;
+  action: "Upload" | "Update";
 };
 
-const PostForm = ({ post }: PostFormProps) => {
+const PostForm = ({ post, action }: PostFormProps) => {
   const navigate = useNavigate();
   const { user } = useUserContext();
   const { toast } = useToast();
   const { mutateAsync: uploadPost, isPending: isUploadingPost } =
     useUploadPost();
+  const { mutateAsync: updatePost, isPending: isUpdatingpost } =
+    useUpdatePost();
 
   const form = useForm<z.infer<typeof PostValidation>>({
     resolver: zodResolver(PostValidation),
@@ -44,6 +50,21 @@ const PostForm = ({ post }: PostFormProps) => {
   });
 
   async function onSubmit(values: z.infer<typeof PostValidation>) {
+    if (post && action == "Update") {
+      const updatedPost = await updatePost({
+        ...values,
+        postId: post?.$id,
+        imageId: post?.imageId,
+        imageUrl: post?.imageUrl,
+      });
+
+      if (!updatePost) {
+        toast({ title: "Please try again" });
+      } else {
+        return navigate(`/post/${post?.$id}`);
+      }
+    }
+
     const newPost = await uploadPost({
       ...values,
       userId: user?.id,
@@ -56,7 +77,6 @@ const PostForm = ({ post }: PostFormProps) => {
     }
 
     navigate("/");
-    console.log(values);
   }
   return (
     <Form {...form}>
@@ -136,7 +156,7 @@ const PostForm = ({ post }: PostFormProps) => {
           <Button variant={"outline"} type="button">
             Go Back
           </Button>
-          <Button type="submit">
+          <Button type="submit" disabled={isUploadingPost || isUpdatingpost}>
             {isUploadingPost ? (
               <div
                 className="flex items-center
@@ -145,7 +165,7 @@ const PostForm = ({ post }: PostFormProps) => {
                 <Loader /> Loading....
               </div>
             ) : (
-              <p className="text-base uppercase">Upload</p>
+              <p className="text-base uppercase">{action}</p>
             )}
           </Button>
         </div>
