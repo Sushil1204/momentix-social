@@ -421,3 +421,16 @@ export async function updateUser(user: IUpdateUser) {
     console.log(error);
   }
 }
+
+export async function getTopUsers(limit: number) {
+  try {
+    const topUsers = await databases?.listDocuments(
+      appwriteConfig?.databasesId,
+      appwriteConfig?.userCollecttionId,
+      [Query.orderDesc("$createdAt"), Query?.limit(limit)]
+    );
+
+    if (!topUsers) throw Error;
+    return topUsers;
+  } catch (error) {}
+}

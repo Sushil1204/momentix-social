@@ -12,6 +12,7 @@ import {
   getInfinitePost,
   getPostById,
   getRecentPost,
+  getTopUsers,
   getUserById,
   likePost,
   loginUser,
@@ -218,5 +219,12 @@ export const useUpdateUser = () => {
         queryKey: ["getUserById", data?.$id],
       });
     },
+  });
+};
+
+export const useGetTopUsers = (limit: number) => {
+  return useQuery({
+    queryKey: ["getTopUsers"],
+    queryFn: () => getTopUsers(limit),
   });
 };
