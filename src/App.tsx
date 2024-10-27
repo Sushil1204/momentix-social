@@ -10,6 +10,7 @@ import EditPost from "./_root/pages/editPost";
 import PostDetails from "./_root/pages/postDetails";
 import Search from "./_root/pages/Search";
 import Profile from "./_root/pages/profile";
+import EditProfile from "./_root/pages/EditProfile";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/post/:id" element={<PostDetails />} />
           <Route path="/search" element={<Search />} />
           <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/editprofile/:id" element={<EditProfile />} />
         </Route>
       </Routes>
       <Toaster />

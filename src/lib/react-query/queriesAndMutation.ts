@@ -19,9 +19,10 @@ import {
   savePost,
   searchUser,
   updatePost,
+  updateUser,
   uploadPost,
 } from "../appwrite/api";
-import { INewPost, INewUser, IUpdatePost } from "@/types";
+import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 
 export const useCreateUserMutation = () => {
   return useMutation({
@@ -204,5 +205,18 @@ export const useGetUserById = (userId: string) => {
     queryKey: ["getUserById"],
     queryFn: () => getUserById(userId),
     enabled: !!userId,
+  });
+};
+
+export const useUpdateUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["updateUser"],
+    mutationFn: (user: IUpdateUser) => updateUser(user),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["getUserById", data?.$id],
+      });
+    },
   });
 };

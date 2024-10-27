@@ -24,6 +24,7 @@ const Profile = () => {
         <img
           src={currentUser?.imageUrl}
           alt="profile"
+          loading="lazy"
           className="w-28 h-28 rounded-full shadow-md object-cover"
         />
         <div className="flex flex-col flex-1 justify-between md:mt-2 items-center xl:items-start">
@@ -45,10 +46,13 @@ const Profile = () => {
           </p>
         </div>
         <div className="flex justify-center mt-6 xl:mt-0 gap-4">
-          <Button className="flex items-center gap-2 bg-transparent text-gray-800 px-4 py-2 rounded-lg hover:bg-slate-50 border border-gray-800 transition-colors">
+          <Link
+            to={`/editprofile/${currentUser?.$id}`}
+            className="flex items-center gap-2 bg-transparent text-gray-800 px-4 py-2 rounded-lg hover:bg-slate-50 border border-gray-800 transition-colors"
+          >
             <SquarePen className="h-5 w-5" />
             <span className="text-sm font-medium">Edit Profile</span>
-          </Button>
+          </Link>
           {currentUser?.$id !== user?.id && (
             <Button className="flex items-center gap-2 bg-transparent text-gray-800 px-4 py-2 rounded-lg hover:bg-slate-50 border border-gray-800 transition-colors">
               <UserPlus className="h-5 w-5" />
