@@ -5,6 +5,7 @@ type ISearchUserProps = {
   searchedUser: Models.Document[];
   isSearchUserPending: boolean;
 };
+
 const SearchResults = ({
   searchedUser,
   isSearchUserPending,
