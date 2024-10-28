@@ -11,6 +11,7 @@ import PostDetails from "./_root/pages/postDetails";
 import Search from "./_root/pages/Search";
 import Profile from "./_root/pages/profile";
 import EditProfile from "./_root/pages/EditProfile";
+import ComingSoon from "./_root/pages/comingSoon";
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/editprofile/:id" element={<EditProfile />} />
+          <Route path="/friends" element={<ComingSoon />} />
+          <Route path="/notifications" element={<ComingSoon />} />
         </Route>
       </Routes>
       <Toaster />
