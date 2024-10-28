@@ -18,7 +18,7 @@ const Home = () => {
     (creator) => creator?.posts?.length >= 1
   );
   return (
-    <div className="flex flex-1 flex-col xl:flex-row gap-10 py-10 px-5 md:px-8 lg:px-14 overflow-hidden no-scrollbar">
+    <div className="flex flex-1 flex-col xl:flex-row gap-10 py-10 px-5 md:px-8 lg:px-14 ">
       {/* Feed Section */}
       <div className="flex-1 flex flex-col items-center gap-10 overflow-y-scroll no-scrollbar">
         <div className="w-full max-w-screen-md">

@@ -1,7 +1,7 @@
 import { useUserContext } from "@/context/AuthContext";
 import { multiFormatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
-import { SquarePen, UserRoundPlus } from "lucide-react";
+import { SquarePen, UserRoundMinus, UserRoundPlus } from "lucide-react";
 import { Link } from "react-router-dom";
 import PostStats from "./PostStats";
 import { Button } from "../ui/button";
@@ -62,10 +62,16 @@ const PostCard = ({ post }: PostCardProps) => {
             onClick={() =>
               followUser({ userId: user?.id, followingId: post?.creator?.$id })
             }
-            className="flex itmes-center gap-4 border border-gray-800 px-3 py-2 rounded-lg text-gray-800 hover:text-gray-800 transition-colors"
+            className="flex flex-col md:flex-row itmes-center md:gap-4 border border-gray-800 px-3 py-2 rounded-lg text-gray-800 hover:text-gray-800 transition-colors"
           >
-            <UserRoundPlus className="h-6 w-6" />
-            <span>
+            {folllowings?.documents[0]?.followingsId.includes(
+              post?.creator?.$id
+            ) ? (
+              <UserRoundMinus className="h-10 w-10 md:h-6 md:w-6" />
+            ) : (
+              <UserRoundPlus className="h-10 w-10 md:h-6 md:w-6" />
+            )}
+            <span className="hidden md:block">
               {folllowings?.documents[0]?.followingsId.includes(
                 post?.creator?.$id
               )

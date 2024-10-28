@@ -3,7 +3,11 @@ import PostsGrid from "@/components/shared/PostsGrid";
 import StatBlock from "@/components/shared/StatBlock";
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/context/AuthContext";
-import { useGetUserById } from "@/lib/react-query/queriesAndMutation";
+import {
+  useFollowUser,
+  useGetFollowings,
+  useGetUserById,
+} from "@/lib/react-query/queriesAndMutation";
 import { Grid3x3, SquarePen, UserPlus } from "lucide-react";
 import { FaBookmark, FaHeart } from "react-icons/fa";
 import { Link, Route, Routes, useLocation, useParams } from "react-router-dom";
@@ -13,7 +17,9 @@ const Profile = () => {
   const { id } = useParams();
   const { user } = useUserContext();
   const { pathname } = useLocation();
+  const { mutateAsync: followUser } = useFollowUser();
   const { data: currentUser } = useGetUserById(id || user?.id);
+  const { data: folllowings } = useGetFollowings(id || user?.id);
 
   // State to manage the selected tab
   const [activeTab, setActiveTab] = useState("posts");
@@ -38,8 +44,14 @@ const Profile = () => {
           </div>
           <div className="flex gap-8 mt-6 items-center justify-center xl:justify-start flex-wrap">
             <StatBlock value={currentUser?.posts?.length} label="Posts" />
-            <StatBlock value={20} label="Followers" />
-            <StatBlock value={20} label="Following" />
+            <StatBlock
+              value={folllowings?.documents[0]?.followersId?.length}
+              label="Followers"
+            />
+            <StatBlock
+              value={folllowings?.documents[0]?.followingsId?.length}
+              label="Following"
+            />
           </div>
           <p className="mt-7 text-gray-700 text-center xl:text-left max-w-md text-sm md:text-base">
             {currentUser?.bio}
@@ -54,9 +66,18 @@ const Profile = () => {
             <span className="text-sm font-medium">Edit Profile</span>
           </Link>
           {currentUser?.$id !== user?.id && (
-            <Button className="flex items-center gap-2 bg-transparent text-gray-800 px-4 py-2 rounded-lg hover:bg-slate-50 border border-gray-800 transition-colors">
+            <Button
+              onClick={() =>
+                followUser({ userId: user?.id, followingId: currentUser?.$id })
+              }
+              className="flex items-center gap-2 bg-transparent text-gray-800 px-4 py-2 rounded-lg hover:bg-slate-50 border border-gray-800 transition-colors"
+            >
               <UserPlus className="h-5 w-5" />
-              <span className="text-sm font-medium">Follow</span>
+              <span className="text-sm font-medium">
+                {folllowings?.documents[0]?.userId === currentUser?.$id
+                  ? "Following"
+                  : "Follow"}
+              </span>
             </Button>
           )}
         </div>

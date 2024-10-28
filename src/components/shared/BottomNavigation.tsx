@@ -1,11 +1,11 @@
 import { MobileNavlinks } from "@/constants";
-import React from "react";
+
 import { Link, useLocation } from "react-router-dom";
 
 const BottomNavigation = () => {
   const { pathname } = useLocation();
   return (
-    <section className="z-50 flex items-center justify-between w-full sticky bottom-0 rounded-t-[20px] px-5 py-4 md:hidden">
+    <section className="z-50 flex items-center justify-between w-full sticky bottom-0 rounded-t-[20px] px-5 py-4 md:hidden bg-white">
       {MobileNavlinks?.map((link) => {
         return (
           <Link
