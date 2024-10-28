@@ -18,9 +18,9 @@ const Home = () => {
     (creator) => creator?.posts?.length >= 1
   );
   return (
-    <div className="flex flex-1 flex-col xl:flex-row gap-10 py-10 px-5 md:px-8 lg:px-14 no-scrollbar">
+    <div className="flex flex-1 flex-col xl:flex-row gap-10 py-10 px-5 md:px-8 lg:px-14 overflow-hidden no-scrollbar">
       {/* Feed Section */}
-      <div className="flex-1 flex flex-col items-center gap-10">
+      <div className="flex-1 flex flex-col items-center gap-10 overflow-y-scroll no-scrollbar">
         <div className="w-full max-w-screen-md">
           <h2 className="text-2xl font-bold md:text-3xl mb-6">Feed</h2>
           {loadingRecentPosts ? (
@@ -36,7 +36,7 @@ const Home = () => {
       </div>
 
       {/* Top Creators Section */}
-      <aside className="hidden xl:block xl:w-80 h-fit 2xl:w-96 px-6 py-10 bg-white rounded-lg  overflow-y-auto no-scrollbar">
+      <aside className="hidden xl:block xl:w-80 h-fit 2xl:w-96 px-6 py-10 bg-white rounded-lg no-scrollbar">
         <h3 className="text-2xl font-bold mb-6">Top Creators</h3>
         {isUserLoading ? (
           <Loader />

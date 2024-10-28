@@ -15,6 +15,8 @@ export const appwriteConfig = {
     .VITE_APPWRITE__COLLECTION_USERS_DATABASE_ID,
   postCollectionId: import.meta.env.VITE_APPWRITE__COLLECTION_POSTS_DATABASE_ID,
   savesCollectionId: import.meta.env.VITE_APPWRITE_COLLECTION_SAVES_ID,
+  followsCollectionId: import.meta.env
+    .VITE_APPWRITE__COLLECTION_FOLLOWS_DATABASE_ID,
 };
 
 client

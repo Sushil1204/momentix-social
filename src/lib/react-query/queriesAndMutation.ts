@@ -8,7 +8,9 @@ import {
   createNewUser,
   deletePost,
   deleteSavePost,
+  followUser,
   getCurrentAccount,
+  getFollowings,
   getInfinitePost,
   getPostById,
   getRecentPost,
@@ -24,6 +26,7 @@ import {
   uploadPost,
 } from "../appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+import { string } from "zod";
 
 export const useCreateUserMutation = () => {
   return useMutation({
@@ -226,5 +229,32 @@ export const useGetTopUsers = (limit: number) => {
   return useQuery({
     queryKey: ["getTopUsers"],
     queryFn: () => getTopUsers(limit),
+  });
+};
+
+export const useGetFollowings = (userId: string) => {
+  return useQuery({
+    queryKey: ["getFollowings"],
+    queryFn: () => getFollowings(userId),
+    enabled: !!userId,
+    refetchOnWindowFocus: false,
+  });
+};
+export const useFollowUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["followUser"],
+    mutationFn: ({
+      userId,
+      followingId,
+    }: {
+      userId: string;
+      followingId: string;
+    }) => followUser({ userId, followingId }),
+    onSuccess: () => {
+      queryClient?.invalidateQueries({
+        queryKey: ["getFollowings"],
+      });
+    },
   });
 };

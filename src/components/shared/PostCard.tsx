@@ -1,9 +1,14 @@
 import { useUserContext } from "@/context/AuthContext";
 import { multiFormatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
-import { SquarePen } from "lucide-react";
+import { SquarePen, UserRoundPlus } from "lucide-react";
 import { Link } from "react-router-dom";
 import PostStats from "./PostStats";
+import { Button } from "../ui/button";
+import {
+  useFollowUser,
+  useGetFollowings,
+} from "@/lib/react-query/queriesAndMutation";
 
 type PostCardProps = {
   post: Models.Document;
@@ -11,6 +16,10 @@ type PostCardProps = {
 const PostCard = ({ post }: PostCardProps) => {
   const { user } = useUserContext();
   if (!user) return;
+
+  const { mutateAsync: followUser } = useFollowUser();
+  const { data: folllowings } = useGetFollowings(user?.id);
+  console.log(folllowings?.documents);
 
   return (
     <div className="w-full max-w-screen-sm p-6 lg:p-8 bg-white rounded-lg shadow-md border border-gray-200">
@@ -46,6 +55,24 @@ const PostCard = ({ post }: PostCardProps) => {
           >
             <SquarePen className="h-6 w-6" />
           </Link>
+        )}
+        {user?.id !== post?.creator?.$id && (
+          <Button
+            variant={"ghost"}
+            onClick={() =>
+              followUser({ userId: user?.id, followingId: post?.creator?.$id })
+            }
+            className="flex itmes-center gap-4 border border-gray-800 px-3 py-2 rounded-lg text-gray-800 hover:text-gray-800 transition-colors"
+          >
+            <UserRoundPlus className="h-6 w-6" />
+            <span>
+              {folllowings?.documents[0]?.followingsId.includes(
+                post?.creator?.$id
+              )
+                ? "Following"
+                : "Follow"}
+            </span>
+          </Button>
         )}
       </div>
 

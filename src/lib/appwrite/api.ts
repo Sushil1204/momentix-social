@@ -80,7 +80,7 @@ export const getCurrentAccount = async () => {
     );
 
     if (!currentUser) throw Error;
-
+    console.log(currentUser?.documents[0]);
     return currentUser?.documents[0];
   } catch (error) {}
 };
@@ -433,4 +433,96 @@ export async function getTopUsers(limit: number) {
     if (!topUsers) throw Error;
     return topUsers;
   } catch (error) {}
+}
+
+export async function getFollowings(userId: string) {
+  try {
+    const followings = await databases?.listDocuments(
+      appwriteConfig?.databasesId,
+      appwriteConfig?.followsCollectionId,
+      [Query.equal("userId", userId)]
+    );
+    return followings;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function followUser({
+  userId,
+  followingId,
+}: {
+  userId: string;
+  followingId: string;
+}) {
+  try {
+    // Step 1: Update the following list for the current user
+    const existingUser = await getFollowings(userId);
+
+    if (!existingUser || existingUser?.documents?.length === 0) {
+      // Create a new document if the user doesn't already exist
+      await databases.createDocument(
+        appwriteConfig.databasesId,
+        appwriteConfig.followsCollectionId,
+        ID.unique(),
+        {
+          userId: userId,
+          followingsId: [followingId],
+        }
+      );
+    } else {
+      // Retrieve the existing follow list and prevent duplicates
+      const currentFollowing = existingUser.documents[0].followingId || [];
+      const updatedFollowing = Array.from(
+        new Set([...currentFollowing, followingId])
+      );
+
+      // Update the existing document
+      await databases.updateDocument(
+        appwriteConfig.databasesId,
+        appwriteConfig.followsCollectionId,
+        existingUser.documents[0].$id,
+        {
+          followingsId: updatedFollowing,
+        }
+      );
+    }
+
+    // Step 2: Update the followers list for the target user
+    const targetUserFollowers = await getFollowings(followingId);
+
+    if (!targetUserFollowers || targetUserFollowers?.documents?.length === 0) {
+      // Create a new document for the target user if it doesn't already exist
+      await databases.createDocument(
+        appwriteConfig.databasesId,
+        appwriteConfig.followsCollectionId,
+        ID.unique(),
+        {
+          userId: followingId,
+          followersId: [userId],
+        }
+      );
+    } else {
+      const currentFollowers =
+        targetUserFollowers.documents[0].followersId || [];
+      const updatedFollowers = Array.from(
+        new Set([...currentFollowers, userId])
+      );
+
+      // Update the target user's document with the new follower
+      await databases.updateDocument(
+        appwriteConfig.databasesId,
+        appwriteConfig.followsCollectionId,
+        targetUserFollowers.documents[0].$id,
+        {
+          followersId: updatedFollowers,
+        }
+      );
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error following user:", error);
+    throw error;
+  }
 }
