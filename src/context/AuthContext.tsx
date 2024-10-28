@@ -57,7 +57,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setIsLoading(true);
       const result = await checkAuthUser();
       const cookieFallback = localStorage?.getItem("cookieFallback");
-      console.log(result);
       if (!result || cookieFallback == null) {
         navigate("/login"); // Redirect to login if not authenticated
       }

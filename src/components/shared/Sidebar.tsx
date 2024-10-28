@@ -1,14 +1,24 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import momentix_logo_transparent from "@/assets/momentix_logo_transparent.svg";
 import { Navlinks } from "@/constants";
 import { CircleUserRound, LogOut } from "lucide-react";
 import { useUserContext } from "@/context/AuthContext";
+import { useLogoutUserMutation } from "@/lib/react-query/queriesAndMutation";
 
 const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useUserContext();
-  console.log(location?.pathname?.includes("profile"));
+  const { mutateAsync: logout, isSuccess: logoutSuccess } =
+    useLogoutUserMutation();
+
+  useEffect(() => {
+    if (logoutSuccess) {
+      navigate("/");
+    }
+  }, [logoutSuccess]);
+
   return (
     <div className="hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] bg-dark-2">
       <div className="flex flex-col gap-11">
@@ -54,7 +64,10 @@ const Sidebar = () => {
             Profile
           </p>
         </Link>
-        <div className="flex items-center gap-3 p-4 hover:bg-gray-800 rounded-xl hover:text-white">
+        <div
+          className="flex items-center gap-3 p-4 hover:bg-gray-800 rounded-xl hover:text-white cursor-pointer"
+          onClick={() => logout()}
+        >
           <LogOut />
           <p className="text-sm font-medium lg:text-base lg:font-medium">
             Logout

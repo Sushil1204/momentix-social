@@ -22,7 +22,6 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     (record: Models.Document) => record?.post?.$id === post?.$id
   );
 
-  console.log(savedPosts?.post?.$id === post?.$id);
   const [likes, setLikes] = useState(likesList);
   const [isSaved, setIsSaved] = useState(savedPosts?.post?.$id === post?.$id);
 
@@ -60,7 +59,6 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     }
 
     setLikes(newLikes);
-    console.log(post?.$id, newLikes);
     likePost({ postId: post?.$id, likesArray: newLikes });
   };
 

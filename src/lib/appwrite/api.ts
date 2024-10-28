@@ -80,7 +80,6 @@ export const getCurrentAccount = async () => {
     );
 
     if (!currentUser) throw Error;
-    console.log(currentUser?.documents[0]);
     return currentUser?.documents[0];
   } catch (error) {}
 };

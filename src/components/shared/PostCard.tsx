@@ -21,7 +21,6 @@ const PostCard = ({ post }: PostCardProps) => {
   const { mutateAsync: followUser } = useFollowUser();
   const { mutateAsync: unfollowUser } = useUnfollowUser();
   const { data: folllowings } = useGetFollowings(user?.id);
-  console.log(folllowings?.documents);
 
   return (
     <div className="w-full max-w-screen-sm p-6 lg:p-8 bg-white rounded-lg shadow-md border border-gray-200">
