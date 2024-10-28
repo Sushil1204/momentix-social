@@ -21,6 +21,7 @@ import {
   logoutAccount,
   savePost,
   searchUser,
+  unfollowUser,
   updatePost,
   updateUser,
   uploadPost,
@@ -251,6 +252,25 @@ export const useFollowUser = () => {
       userId: string;
       followingId: string;
     }) => followUser({ userId, followingId }),
+    onSuccess: () => {
+      queryClient?.invalidateQueries({
+        queryKey: ["getFollowings"],
+      });
+    },
+  });
+};
+
+export const useUnfollowUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["unfollowUser"],
+    mutationFn: ({
+      userId,
+      followingId,
+    }: {
+      userId: string;
+      followingId: string;
+    }) => unfollowUser({ userId, followingId }),
     onSuccess: () => {
       queryClient?.invalidateQueries({
         queryKey: ["getFollowings"],

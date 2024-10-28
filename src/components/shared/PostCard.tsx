@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import {
   useFollowUser,
   useGetFollowings,
+  useUnfollowUser,
 } from "@/lib/react-query/queriesAndMutation";
 
 type PostCardProps = {
@@ -18,6 +19,7 @@ const PostCard = ({ post }: PostCardProps) => {
   if (!user) return;
 
   const { mutateAsync: followUser } = useFollowUser();
+  const { mutateAsync: unfollowUser } = useUnfollowUser();
   const { data: folllowings } = useGetFollowings(user?.id);
   console.log(folllowings?.documents);
 
@@ -60,7 +62,17 @@ const PostCard = ({ post }: PostCardProps) => {
           <Button
             variant={"ghost"}
             onClick={() =>
-              followUser({ userId: user?.id, followingId: post?.creator?.$id })
+              folllowings?.documents[0]?.followingsId.includes(
+                post?.creator?.$id
+              )
+                ? unfollowUser({
+                    userId: user?.id,
+                    followingId: post?.creator?.$id,
+                  })
+                : followUser({
+                    userId: user?.id,
+                    followingId: post?.creator?.$id,
+                  })
             }
             className="flex flex-col md:flex-row itmes-center md:gap-4 border border-gray-800 px-3 py-2 rounded-lg text-gray-800 hover:text-gray-800 transition-colors"
           >
@@ -75,7 +87,7 @@ const PostCard = ({ post }: PostCardProps) => {
               {folllowings?.documents[0]?.followingsId.includes(
                 post?.creator?.$id
               )
-                ? "Following"
+                ? "Unfollow"
                 : "Follow"}
             </span>
           </Button>

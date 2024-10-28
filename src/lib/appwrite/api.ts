@@ -526,3 +526,59 @@ export async function followUser({
     throw error;
   }
 }
+
+export async function unfollowUser({
+  userId,
+  followingId,
+}: {
+  userId: string;
+  followingId: string;
+}) {
+  try {
+    // Step 1: Update the following list for the current user
+    const existingUser = await getFollowings(userId);
+
+    if (existingUser && existingUser.documents.length > 0) {
+      const currentFollowing = existingUser.documents[0].followingsId || [];
+      const updatedFollowing = currentFollowing.filter(
+        (id: string) => id !== followingId
+      );
+
+      // Update the document with the modified followings list
+      await databases.updateDocument(
+        appwriteConfig.databasesId,
+        appwriteConfig.followsCollectionId,
+        existingUser.documents[0].$id,
+        {
+          followingsId: updatedFollowing,
+        }
+      );
+    }
+
+    // Step 2: Update the followers list for the target user
+    const targetUserFollowers = await getFollowings(followingId);
+
+    if (targetUserFollowers && targetUserFollowers.documents.length > 0) {
+      const currentFollowers =
+        targetUserFollowers.documents[0].followersId || [];
+      const updatedFollowers = currentFollowers.filter(
+        (id: string) => id !== userId
+      );
+
+      // Update the target user's document with the modified followers list
+      await databases.updateDocument(
+        appwriteConfig.databasesId,
+        appwriteConfig.followsCollectionId,
+        targetUserFollowers.documents[0].$id,
+        {
+          followersId: updatedFollowers,
+        }
+      );
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error unfollowing user:", error);
+    throw error;
+  }
+}
