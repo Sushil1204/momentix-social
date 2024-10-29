@@ -35,7 +35,7 @@ const Login = () => {
 
   async function onSubmit(values: z.infer<typeof LoginValidation>) {
     try {
-      const session: ISession = await loginAccount({
+      const session: ISession | undefined = await loginAccount({
         email: values?.email,
         password: values?.password,
       });

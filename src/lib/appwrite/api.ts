@@ -64,7 +64,7 @@ export async function loginUser(user: { email: string; password: string }) {
     if (!session) throw Error;
     return session;
   } catch (error) {
-    return error;
+    console.log(error);
   }
 }
 
