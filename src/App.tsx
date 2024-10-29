@@ -4,7 +4,6 @@ import Home from "./_root/pages/home";
 import AuthLayout from "./_auth/authLayout";
 import Registration from "./_auth/forms/registration";
 import RootLayout from "./_root/rootLayout";
-import { Toaster } from "./components/ui/toaster";
 import CreatePost from "./_root/pages/createPost";
 import EditPost from "./_root/pages/editPost";
 import PostDetails from "./_root/pages/postDetails";
@@ -12,6 +11,8 @@ import Search from "./_root/pages/Search";
 import Profile from "./_root/pages/profile";
 import EditProfile from "./_root/pages/EditProfile";
 import ComingSoon from "./_root/pages/comingSoon";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -36,7 +37,16 @@ function App() {
           <Route path="/notifications" element={<ComingSoon />} />
         </Route>
       </Routes>
-      <Toaster />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        theme="light"
+      />
     </main>
   );
 }

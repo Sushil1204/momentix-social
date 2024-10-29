@@ -16,10 +16,9 @@ import { LoginValidation } from "@/lib/validation";
 import { useForm } from "react-hook-form";
 import { useLoginUserMutation } from "@/lib/react-query/queriesAndMutation";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "react-toastify";
 
 const Login = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const { mutateAsync: loginAccount, isPending: isLoggingAccount } =
@@ -34,18 +33,20 @@ const Login = () => {
   });
 
   async function onSubmit(values: z.infer<typeof LoginValidation>) {
-    const session = await loginAccount({
-      email: values?.email,
-      password: values?.password,
-    });
-
-    if (!session) {
-      return toast({
-        title: "Login failed. Please try again.",
+    try {
+      const session = await loginAccount({
+        email: values?.email,
+        password: values?.password,
       });
-    } else {
-      form?.reset();
-      navigate("/");
+      if (!session?.userId) {
+        return toast.error(
+          "Invalid credentials. Please check your email and password, and try again."
+        );
+      } else {
+        form.reset(), navigate("/");
+      }
+    } catch (error) {
+      console.log("error", error);
     }
   }
 

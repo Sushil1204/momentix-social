@@ -16,7 +16,6 @@ import { Textarea } from "../ui/textarea";
 import FileUploader from "../shared/FileUploader";
 import { PostValidation } from "@/lib/validation";
 import { Models } from "appwrite";
-import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import {
   useUpdatePost,
@@ -24,6 +23,7 @@ import {
 } from "@/lib/react-query/queriesAndMutation";
 import Loader from "../shared/loader";
 import { useUserContext } from "@/context/AuthContext";
+import { toast } from "react-toastify";
 
 type PostFormProps = {
   post?: Models.Document;
@@ -33,7 +33,6 @@ type PostFormProps = {
 const PostForm = ({ post, action }: PostFormProps) => {
   const navigate = useNavigate();
   const { user } = useUserContext();
-  const { toast } = useToast();
   const { mutateAsync: uploadPost, isPending: isUploadingPost } =
     useUploadPost();
   const { mutateAsync: updatePost, isPending: isUpdatingpost } =
@@ -58,8 +57,8 @@ const PostForm = ({ post, action }: PostFormProps) => {
         imageUrl: post?.imageUrl,
       });
 
-      if (!updatePost) {
-        toast({ title: "Please try again" });
+      if (!updatedPost) {
+        toast.error("Please try again");
       } else {
         return navigate(`/post/${post?.$id}`);
       }
@@ -71,9 +70,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
     });
 
     if (!newPost) {
-      toast({
-        title: "Something is wrong.. Please try again",
-      });
+      toast.warn("Something is wrong.. Please try again");
     }
 
     navigate("/");
