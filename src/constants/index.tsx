@@ -1,7 +1,6 @@
 import {
   Bell,
   CirclePlus,
-  CircleUserRound,
   House,
   MessageCircle,
   Search,

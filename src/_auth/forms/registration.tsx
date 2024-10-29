@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -29,8 +28,7 @@ const Registration = () => {
 
   const { mutateAsync: createNewUser, isPending: isCreatingUser } =
     useCreateUserMutation();
-  const { mutateAsync: loginAccount, isPending: isLoggingAccount } =
-    useLoginUserMutation();
+  const { mutateAsync: loginAccount } = useLoginUserMutation();
 
   const form = useForm<z.infer<typeof RegistrationValidation>>({
     resolver: zodResolver(RegistrationValidation),

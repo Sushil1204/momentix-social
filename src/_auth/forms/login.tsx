@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { useLoginUserMutation } from "@/lib/react-query/queriesAndMutation";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
+import { ISession } from "@/constants/interfaces";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const Login = () => {
 
   async function onSubmit(values: z.infer<typeof LoginValidation>) {
     try {
-      const session = await loginAccount({
+      const session: ISession = await loginAccount({
         email: values?.email,
         password: values?.password,
       });

@@ -1,4 +1,3 @@
-import Loader from "@/components/shared/loader";
 import PostsGrid from "@/components/shared/PostsGrid";
 import SearchResults from "@/components/shared/SearchResults";
 import useDebounce from "@/hooks/useDebounce";
@@ -6,23 +5,15 @@ import {
   useGetPosts,
   useSearchUser,
 } from "@/lib/react-query/queriesAndMutation";
-import { ListFilter, SearchIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import { useState } from "react";
 
 const Search = () => {
-  const { data: posts, fetchNextPage, hasNextPage, isPending } = useGetPosts();
+  const { data: posts } = useGetPosts();
   const [searchValue, setSearchValue] = useState("");
   const debouncedValue = useDebounce(searchValue, 500);
   const { data: searchedUser, isPending: isSearchUserPending } =
     useSearchUser(debouncedValue);
-
-  // if (!isPending) {
-  //   return (
-  //     <div className="flex items-center justify-center w-full h-full">
-  //       <Loader />
-  //     </div>
-  //   );
-  // }
 
   const shouldShowSearchResults = searchValue !== "";
   const shouldShowPosts =
@@ -50,7 +41,7 @@ const Search = () => {
       <div className="flex flex-wrap gap-9 w-full max-w-5xl mt-6">
         {shouldShowSearchResults ? (
           <SearchResults
-            searchedUser={searchedUser?.documents}
+            searchedUser={searchedUser?.documents || []}
             isSearchUserPending={isSearchUserPending}
           />
         ) : shouldShowPosts ? (

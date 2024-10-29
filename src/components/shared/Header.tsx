@@ -1,10 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import momentix_logo_transparent from "@/assets/momentix_logo_transparent.svg";
 import { Bell } from "lucide-react";
 import { useUserContext } from "@/context/AuthContext";
 
 const Header = () => {
-  const navigate = useNavigate();
   const { user } = useUserContext();
 
   return (

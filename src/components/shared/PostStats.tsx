@@ -7,7 +7,6 @@ import {
 import { Models } from "appwrite";
 import React, { useState } from "react";
 import { FaBookmark, FaHeart, FaRegBookmark, FaRegHeart } from "react-icons/fa";
-import Loader from "./loader";
 
 type PostStatsProps = {
   post: Models.Document;

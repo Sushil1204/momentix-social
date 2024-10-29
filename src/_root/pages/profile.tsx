@@ -1,4 +1,3 @@
-import Loader from "@/components/shared/loader";
 import PostsGrid from "@/components/shared/PostsGrid";
 import StatBlock from "@/components/shared/StatBlock";
 import { Button } from "@/components/ui/button";
@@ -9,14 +8,13 @@ import {
   useGetUserById,
 } from "@/lib/react-query/queriesAndMutation";
 import { Grid3x3, SquarePen, UserPlus } from "lucide-react";
-import { FaBookmark, FaHeart } from "react-icons/fa";
-import { Link, Route, Routes, useLocation, useParams } from "react-router-dom";
+import { FaHeart } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 
 const Profile = () => {
   const { id } = useParams();
   const { user } = useUserContext();
-  const { pathname } = useLocation();
   const { mutateAsync: followUser } = useFollowUser();
   const { data: currentUser } = useGetUserById(id || user?.id);
   const { data: folllowings } = useGetFollowings(id || user?.id);
@@ -68,7 +66,10 @@ const Profile = () => {
           {currentUser?.$id !== user?.id && (
             <Button
               onClick={() =>
-                followUser({ userId: user?.id, followingId: currentUser?.$id })
+                followUser({
+                  userId: user?.id,
+                  followingId: currentUser?.$id || "",
+                })
               }
               className="flex items-center gap-2 bg-transparent text-gray-800 px-4 py-2 rounded-lg hover:bg-slate-50 border border-gray-800 transition-colors"
             >

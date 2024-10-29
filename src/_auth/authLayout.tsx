@@ -1,7 +1,5 @@
-import momentix_transparent_logo from "../assets/momentix_logo_transparent.svg";
 import login_vector from "../assets/login_vector.png";
-import { Outlet, Navigate } from "react-router-dom";
-import { Toaster } from "@/components/ui/toaster";
+import { Outlet } from "react-router-dom";
 
 const AuthLayout = () => {
   // const isAuthenticated = false;

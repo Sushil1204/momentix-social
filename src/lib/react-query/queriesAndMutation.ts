@@ -27,7 +27,6 @@ import {
   uploadPost,
 } from "../appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
-import { string } from "zod";
 
 export const useCreateUserMutation = () => {
   return useMutation({

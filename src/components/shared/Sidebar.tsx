@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import momentix_logo_transparent from "@/assets/momentix_logo_transparent.svg";
 import { Navlinks } from "@/constants";

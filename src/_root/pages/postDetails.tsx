@@ -1,5 +1,4 @@
 import Loader from "@/components/shared/loader";
-import { useUserContext } from "@/context/AuthContext";
 import {
   useDeletePost,
   useGetPostById,
@@ -14,7 +13,6 @@ const PostDetails = () => {
   const { id } = useParams();
   const { data: post, isPending } = useGetPostById(id || "");
   const { mutate: deletePost } = useDeletePost();
-  const { user } = useUserContext();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const handleDelete = () => {

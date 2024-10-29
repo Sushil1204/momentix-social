@@ -1,15 +1,12 @@
-import { useUserContext } from "@/context/AuthContext";
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
-import PostStats from "./PostStats";
 
 type IPostGrid = {
   posts: Models.Document[];
   showUser?: boolean;
   showStats?: boolean;
 };
-const PostsGrid = ({ posts, showUser = true, showStats = true }: IPostGrid) => {
-  const { user } = useUserContext();
+const PostsGrid = ({ posts, showUser = true }: IPostGrid) => {
   return (
     <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl">
       {posts?.map((post) => (

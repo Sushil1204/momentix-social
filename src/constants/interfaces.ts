@@ -114,3 +114,7 @@ export interface Post {
   $databaseId: string;
   $collectionId: string;
 }
+
+export interface ISession {
+  userId: string;
+}
